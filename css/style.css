@@ -37,8 +37,9 @@ body {
   
   .weather__today {
     display: flex;
-    flex-wrap: ;
+    flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 20px;
   }
   
   .weather__image {
