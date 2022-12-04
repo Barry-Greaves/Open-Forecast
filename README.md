@@ -70,13 +70,54 @@ I used HTML to create the basic structure of the website
 ### Feature 3
 ![Screen Shot 2022-12-04 at 23 16 08](https://user-images.githubusercontent.com/107034179/205521620-dee22c6e-e954-44c8-a26e-5906d2137487.png)
 
-## Validation
+## Validation & Testing
 
-## Testing
-<img width="1390" alt="Screen Shot 2022-12-04 at 23 13 50" src="https://user-images.githubusercontent.com/107034179/205521550-3e62143b-3fec-426a-9a93-c337840def72.png">
+I tested the performance of each page using Google Chrome's Lighthouse feature in the Dev Tools. The Website has passed HTML & CSS Vallidation and has scored 100% for Accesibility, Performance and Best Practices and 90% for SEO in lighthouse . The results can be seen below. 
+
+### HTML
 <img width="1390" alt="Screen Shot 2022-12-04 at 23 14 46" src="https://user-images.githubusercontent.com/107034179/205521551-b601c042-7f20-4e39-af54-ce6f9dfaeb39.png">
+
+### CSS
+<img width="1390" alt="Screen Shot 2022-12-04 at 23 13 50" src="https://user-images.githubusercontent.com/107034179/205521550-3e62143b-3fec-426a-9a93-c337840def72.png">
+
+### Lighthouse
 <img width="1390" alt="Screen Shot 2022-12-04 at 23 14 46" src="https://user-images.githubusercontent.com/107034179/205521693-09990bcd-5937-4bac-b4f0-60425e584ef5.png">
 
 ## Deployment
+
+# Deployment
+
+- I created the repository using the [Code Institute Gitpod Template](https://github.com/Code-Institute-Org/gitpod-full-template)
+- I selected "Use this template" and then created a new repository using the full template. 
+- Once in Github repository I then set up the development environment in Gitpod
+- I begun the website by creating an index.html page and css style sheet. 
+- I committed all updates through the development process, ensuring they were well defined and included a clear message describing the reason for each commit. 
+- The website is hosted on Github pages and the link can be found by navigating to the settings tab of the repoistory and then clicking on 'pages'.
+- Live link is available here: https://barry-greaves.github.io/machine-learning/
+
+<hr>
+
+# Forking This Project
+
+Fork this project following the steps:
+- In Github navigate to github.com/Barry-Greaves/open-forecast/
+- Click on 'Fork' located in the top right hand corner of the repository
+- Select an owner for the forked repository.
+- Click 'create fork'
+
+<hr>
+
+# Cloning This Project
+
+Clone this project following the steps:
+- Open GitHub.
+- Select the Open Forecast Project
+- Click the clipboard icon in order to copy the URL
+- Open the terminal.
+- Change the current working directory to the location where you want the cloned directory.
+- Type 'git clone' and then paste the URL you have copied. 
+- Press 'Enter' and your clone has been create. 
+
+<hr>
 
 ## Credits
