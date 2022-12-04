@@ -1,4 +1,4 @@
-let searchInp = document.querySelector('.weather__search')
+let searchInp = document.querySelector('.weather__search');
 let day = document.querySelector('.weather__day');
 let city = document.querySelector('.weather__city');
 let image = document.querySelector('.weather__image');
