@@ -6,7 +6,7 @@ let humidity = document.querySelector('.weather__indicator--humidity>.value');
 let wind = document.querySelector('.weather__indicator--wind>.value');
 let pressure = document.querySelector('.weather__indicator--pressure>.value');
 let temperature = document.querySelector('.weather__temperature>.value');
-let forecastBlock = document.querySelector('.weather__forecast')
+let forecastBlock = document.querySelector('.weather__forecast');
 let weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
 let weatherBaseEndpoint = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=" + weatherAPIKey;
 let forecastBaseEndpoint = "https://api.openweathermap.org/data/2.5/forecast?units=metric&appid="  +weatherAPIKey;
@@ -49,14 +49,14 @@ let weatherImages = [
       url: 'images/thnderstorm.png',
       ids: [200, 201, 202, 210, 211, 212, 221, 230, 231, 232]
   }
-]
+];
 
 let getWeatherByCityName = async (city) => {
   let endpoint = weatherBaseEndpoint + '&q=' + city;
   let response = await fetch(endpoint);
   let weather = await response.json();
   return weather;
-}
+};
 
 let getForecastByCityID = async (id) => {
   let endpoint = forecastBaseEndpoint + '&id=' + id;
@@ -71,10 +71,10 @@ let getForecastByCityID = async (id) => {
       if(hours === 12) {
           daily.push(day);
       }
-  })
+  });
   return daily;
   
-}
+};
 
 let weatherForCity =  async(city) => {
   let weather = await getWeatherByCityName(city);
@@ -85,13 +85,13 @@ let weatherForCity =  async(city) => {
   updateCurrentWeather(weather);
   let forecast = await getForecastByCityID(cityID);
   updateForecast(forecast);
-}
+};
 
 searchInp.addEventListener('keydown', async (e) => {
 if(e.keyCode === 13) {
-      weatherForCity(searchInp.value)
+      weatherForCity(searchInp.value);
 } 
-})
+});
 
 let updateCurrentWeather = (data) => {
     city.textContent = data.name + ', ' + data.sys.country;
@@ -118,8 +118,8 @@ let updateCurrentWeather = (data) => {
         if(obj.ids.includes(imgID)) {
             image.src = obj.url;
         }
-    })
-  }
+    });
+  };
 
 let updateForecast = (forecast) => {
   forecastBlock.innerHTML = '';
@@ -137,9 +137,9 @@ let updateForecast = (forecast) => {
           </article>
       `;
       forecastBlock.insertAdjacentHTML('beforeend', forecatItem);
-  })
-}
+  });
+};
 
 let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
-  }
+  };
