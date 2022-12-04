@@ -26,4 +26,9 @@ let getWeatherByCityName = async (city) => {
 
   let updateCurrentWeather = (data) => {
     city.textContent = data.name + ', ' + data.sys.country;
+    day.textContent = dayOfWeek();
 }
+
+let dayOfWeek = (dt = new Date().getTime()) => {
+    return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
+  }
