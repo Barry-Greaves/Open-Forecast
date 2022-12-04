@@ -1,3 +1,4 @@
+let searchInp = document.querySelector('.weather__search')
 let day = document.querySelector('.weather__day');
 let city = document.querySelector('.weather__city');
 let image = document.querySelector('.weather__image');
@@ -14,3 +15,10 @@ let getWeatherByCityName = async (city) => {
     let weather = await response.json();
     return weather;
   }
+
+  searchInp.addEventListener('keydown', async (e) => {
+    if(e.keyCode === 13) {
+          let weather = await getWeatherByCityName(searchInp.value);
+          console.log(weather);
+    } 
+  })
