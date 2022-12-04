@@ -11,13 +11,14 @@ let weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
 let weatherBaseEndpoint = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=" + weatherAPIKey;
 let forecastBaseEndpoint = "https://api.openweathermap.org/data/2.5/forecast?units=metric&appid="  +weatherAPIKey;
 
+
 let weatherImages = [
   {
       url: 'images/sunny.png',
       ids: [800]
   },
   {
-      url: 'images/broken-clouds.png',
+      url: 'images/scattered-clouds.png',
       ids: [803, 804]
   },
   {
@@ -92,7 +93,7 @@ if(e.keyCode === 13) {
 } 
 })
 
-  let updateCurrentWeather = (data) => {
+let updateCurrentWeather = (data) => {
     city.textContent = data.name + ', ' + data.sys.country;
     day.textContent = dayOfWeek();
     humidity.textContent = data.main.humidity;
@@ -110,14 +111,20 @@ if(e.keyCode === 13) {
     }
     wind.textContent = windDirection + ', ' + data.wind.speed;
     temperature.textContent = data.main.temp > 0 ? 
-      '+' + Math.round(data.main.temp) : 
-      '-' +  Math.round(data.main.temp);
-}
+                                '+' + Math.round(data.main.temp) : 
+                                Math.round(data.main.temp);
+    let imgID = data.weather[0].id;
+    weatherImages.forEach(obj => {
+        if(obj.ids.includes(imgID)) {
+            image.src = obj.url;
+        }
+    })
+  }
 
 let updateForecast = (forecast) => {
   forecastBlock.innerHTML = '';
   forecast.forEach(day => {
-      let iconUrl = 'http://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
+      let iconUrl = 'https://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
       let dayName = dayOfWeek(day.dt * 1000);
       let temperature = day.main.temp > 0 ? 
                   '+' + Math.round(day.main.temp) : 
