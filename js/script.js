@@ -6,23 +6,52 @@ let humidity = document.querySelector('.weather__indicator--humidity>.value');
 let wind = document.querySelector('.weather__indicator--wind>.value');
 let pressure = document.querySelector('.weather__indicator--pressure>.value');
 let temperature = document.querySelector('.weather__temperature>.value');
+let forecastBlock = document.querySelector('.weather__forecast')
 let weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
 let weatherBaseEndpoint = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=" + weatherAPIKey;
+let forecastBaseEndpoint = "https://api.openweathermap.org/data/2.5/forecast?units=metric&appid="  +weatherAPIKey;
 
 let getWeatherByCityName = async (city) => {
-    let endpoint = weatherBaseEndpoint + '&q=' + city;
-    let response = await fetch(endpoint);
-    let weather = await response.json();
-    return weather;
-  }
+  let endpoint = weatherBaseEndpoint + '&q=' + city;
+  let response = await fetch(endpoint);
+  let weather = await response.json();
+  return weather;
+}
 
-  searchInp.addEventListener('keydown', async (e) => {
-    if(e.keyCode === 13) {
-          let weather = await getWeatherByCityName(searchInp.value);
-          updateCurrentWeather(weather);
-          console.log(weather);
-    } 
+let getForecastByCityID = async (id) => {
+  let endpoint = forecastBaseEndpoint + '&id=' + id;
+  let result = await fetch(endpoint);
+  let forecast = await result.json();
+  let forecastList = forecast.list;
+  let daily = [];
+
+  forecastList.forEach(day => {
+      let date = new Date(day.dt_txt.replace(' ', 'T'));
+      let hours = date.getHours();
+      if(hours === 12) {
+          daily.push(day);
+      }
   })
+  return daily;
+  
+}
+
+let weatherForCity =  async(city) => {
+  let weather = await getWeatherByCityName(city);
+  if(weather.cod === '404') {
+      return;
+  }
+  let cityID = weather.id;
+  updateCurrentWeather(weather);
+  let forecast = await getForecastByCityID(cityID);
+  updateForecast(forecast);
+}
+
+searchInp.addEventListener('keydown', async (e) => {
+if(e.keyCode === 13) {
+      weatherForCity(searchInp.value)
+} 
+})
 
   let updateCurrentWeather = (data) => {
     city.textContent = data.name + ', ' + data.sys.country;
@@ -44,6 +73,25 @@ let getWeatherByCityName = async (city) => {
     temperature.textContent = data.main.temp > 0 ? 
       '+' + Math.round(data.main.temp) : 
       '-' +  Math.round(data.main.temp);
+}
+
+let updateForecast = (forecast) => {
+  forecastBlock.innerHTML = '';
+  forecast.forEach(day => {
+      let iconUrl = 'http://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
+      let dayName = dayOfWeek(day.dt * 1000);
+      let temperature = day.main.temp > 0 ? 
+                  '+' + Math.round(day.main.temp) : 
+                  Math.round(day.main.temp);
+      let forecatItem = `
+          <article class="weather__forecast__item">
+              <img src="${iconUrl}" alt="${day.weather[0].description}" class="weather__forecast__icon">
+              <h3 class="weather__forecast__day">${dayName}</h3>
+              <p class="weather__forecast__temperature"><span class="value">${temperature}</span> &deg;C</p>
+          </article>
+      `;
+      forecastBlock.insertAdjacentHTML('beforeend', forecatItem);
+  })
 }
 
 let dayOfWeek = (dt = new Date().getTime()) => {
