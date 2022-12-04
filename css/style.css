@@ -9,6 +9,7 @@ body {
     font-family: 'forma-djr-banner' , Ariel, sans-serif;
     font-weight: 300;
     font-size: 22px;
+    letter-spacing: .3rem;
   }
   
   .weather__main {
