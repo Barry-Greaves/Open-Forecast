@@ -121,3 +121,15 @@ Clone this project following the steps:
 <hr>
 
 ## Credits
+
+### Code
+
+The code for this website was written using lessons from the Code Institute and credited to concepts thought in a project from [Udemy Build Modern Javascripts Projects Course](https://www.udemy.com/course/the-javascript-course-build-modern-javascript-projects/)
+
+### Icons
+
+The icons used for the this project were downloaded from [Graphberry Graphic Resource](https://www.graphberry.com/products/download/weather-icons)
+
+### Fonts 
+
+The font Forma DJR Banner was licenced from [Adobe Fonts](https://fonts.adobe.com/)
