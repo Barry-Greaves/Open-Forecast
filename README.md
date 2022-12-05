@@ -142,7 +142,7 @@ Clone this project following the steps:
 
 ### Code
 
-The code for this website was written using lessons from the Code Institute and credited to concepts thought in a project from [Udemy Build Modern Javascripts Projects Course](https://www.udemy.com/course/the-javascript-course-build-modern-javascript-projects/)
+The code for this is credited to a coding project from [Udemy Build Modern Javascripts Projects Course](https://www.udemy.com/course/the-javascript-course-build-modern-javascript-projects/)
 
 ### Icons
 
