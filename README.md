@@ -1,8 +1,10 @@
 # Open Forecast
 
-![Screen Shot 2022-12-04 at 22 38 09](https://user-images.githubusercontent.com/107034179/205521327-c31e8cbd-134b-487c-a03a-9104849cfb84.png)
+![weather app layouts](https://user-images.githubusercontent.com/107034179/205527393-24a7ad02-8eaf-4c20-8e82-d984f51a6441.png)
 
 Open Forecast is web based weather forescast website which provides a 5 day weather forecast for any city the user chooses. 
+
+Link to [Live Website](https://barry-greaves.github.io/Open-Forecast/)
 
 ## Project Goals
 
@@ -109,7 +111,7 @@ The results can be seen below.
 - I begun the website by creating an index.html page and css style sheet. 
 - I committed all updates through the development process, ensuring they were well defined and included a clear message describing the reason for each commit. 
 - The website is hosted on Github pages and the link can be found by navigating to the settings tab of the repoistory and then clicking on 'pages'.
-- Live link is available here: https://barry-greaves.github.io/machine-learning/
+- Live link is available here: https://barry-greaves.github.io/Open-Forecast/
 
 <hr>
 
