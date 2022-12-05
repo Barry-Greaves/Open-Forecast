@@ -62,7 +62,9 @@ I used CSS to style the basic structure of the website.
 
 ### Javascript
 
-### Open Weather API
+I used javascript to connect the website to the Open Weather Map API. This was done through the use of functions, arrays, variables, event listeners and conditional statements. 
+
+### Open Weather Map
 Open Weather API allows programmers to get weather data for any location on the globe immediately. This was connected to the website using Javascript. 
 
 ## Features
@@ -99,9 +101,6 @@ The results can be seen below.
 ### JSHint
 ![Screen Shot 2022-12-05 at 00 26 24](https://user-images.githubusercontent.com/107034179/205525211-308a8ace-b032-43e3-a309-ebca66b6294e.png)
 
-
-
-
 ## Deployment
 
 - I created the repository using the [Code Institute Gitpod Template](https://github.com/Code-Institute-Org/gitpod-full-template)
@@ -114,7 +113,7 @@ The results can be seen below.
 
 <hr>
 
-# Forking This Project
+## Forking This Project
 
 Fork this project following the steps:
 - In Github navigate to github.com/Barry-Greaves/open-forecast/
@@ -124,7 +123,7 @@ Fork this project following the steps:
 
 <hr>
 
-# Cloning This Project
+## Cloning This Project
 
 Clone this project following the steps:
 - Open GitHub.
