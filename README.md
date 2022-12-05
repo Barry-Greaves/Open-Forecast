@@ -42,37 +42,50 @@ The goal of this project was to create a functional weather app that users can v
 ## Design
 
 ### Color Scheme
+The colors chosen are a bold blue color and white. I wanted to keep the design minimal and functional and decided on a two color scheme to compliment this.
+
 ![Screen Shot 2022-12-04 at 23 12 04](https://user-images.githubusercontent.com/107034179/205521393-02d5e2f1-f7b5-47b8-a7bd-bec3be328b59.png)
 
 ### Icons
+The icons used for the this project were downloaded from [Graphberry Graphic Resource](https://www.graphberry.com/products/download/weather-icons) They were chosen for their clear and minimalist design. 
 ![Screen Shot 2022-12-04 at 23 06 28](https://user-images.githubusercontent.com/107034179/205521362-99eadfcf-9598-49cc-aa82-8bb16677f717.png)
 
 ## Technology Used
 
 ### HTML
 
-I used HTML to create the basic structure of the website
+I used HTML to create the basic structure of the website. 
 
 ### CSS
+
+I used CSS to style the basic structure of the website. 
 
 ### Javascript
 
 ### Open Weather API
+Open Weather API allows programmers to get weather data for any location on the globe immediately. This was connected to the website using Javascript. 
 
 ## Features
 
-### Feature 1
+### Search Input
 ![Screen Shot 2022-12-04 at 23 15 58](https://user-images.githubusercontent.com/107034179/205521606-580021b6-14ae-4b8d-a9a0-1f67458c6f82.png)
 
-### Feature 2
+### Current Weather and Statistics
 ![Screen Shot 2022-12-04 at 23 17 03](https://user-images.githubusercontent.com/107034179/205521657-4ff2f081-54a8-4851-9216-f172a10d304f.png)
 
-### Feature 3
+### 5 Day Weather Broadcast
 ![Screen Shot 2022-12-04 at 23 16 08](https://user-images.githubusercontent.com/107034179/205521620-dee22c6e-e954-44c8-a26e-5906d2137487.png)
+
+### Plans for future features.
+In the next iteration of this app I plan to create a city suggestion dropdown menu. This will allow users to select from cities that are suggested aftet hey type the first 3 characters of the city they wish to view. 
 
 ## Validation & Testing
 
-I tested the performance of each page using Google Chrome's Lighthouse feature in the Dev Tools. The Website has passed HTML & CSS Vallidation and has scored 100% for Accesibility, Performance and Best Practices and 90% for SEO in lighthouse . The results can be seen below. 
+I tested the I tested the performance of each page using Google Chrome's Lighthouse feature in the Dev Tools. The Website has passed HTML & CSS Vallidation and has scored 100% for Accesibility, Performance and Best Practices and 90% for SEO in lighthouse . 
+
+The javascript was tested in JSHint and came back with 4 warning messages which could not be resolved. The warnings were :'async functions' is only available in ES8 (use 'esversion: 8'). This was due to JSHint not supporting async/await and only up to the maxim version of "esversion" 6.
+
+The results can be seen below. 
 
 ### HTML
 <img width="1390" alt="Screen Shot 2022-12-04 at 23 14 46" src="https://user-images.githubusercontent.com/107034179/205521551-b601c042-7f20-4e39-af54-ce6f9dfaeb39.png">
@@ -83,9 +96,13 @@ I tested the performance of each page using Google Chrome's Lighthouse feature i
 ### Lighthouse
 <img width="1390" alt="Screen Shot 2022-12-04 at 23 14 46" src="https://user-images.githubusercontent.com/107034179/205521693-09990bcd-5937-4bac-b4f0-60425e584ef5.png">
 
-## Deployment
+### JSHint
+![Screen Shot 2022-12-05 at 00 26 24](https://user-images.githubusercontent.com/107034179/205525211-308a8ace-b032-43e3-a309-ebca66b6294e.png)
 
-# Deployment
+
+
+
+## Deployment
 
 - I created the repository using the [Code Institute Gitpod Template](https://github.com/Code-Institute-Org/gitpod-full-template)
 - I selected "Use this template" and then created a new repository using the full template. 
@@ -116,7 +133,7 @@ Clone this project following the steps:
 - Open the terminal.
 - Change the current working directory to the location where you want the cloned directory.
 - Type 'git clone' and then paste the URL you have copied. 
-- Press 'Enter' and your clone has been create. 
+- Press 'Enter' and your clone has been created. 
 
 <hr>
 
