@@ -57,9 +57,13 @@ let weatherImages = [
 let getWeatherByCityName = async (city) => {
     let endpoint = weatherBaseEndpoint + '&q=' + city;
     let response = await fetch(endpoint);
+    if(!response.ok) {
+        return {cod: '404'};
+    }
     let weather = await response.json();
     return weather;
 }
+
 
 let getForecastByCityID = async (id) => {
     let endpoint = forecastBaseEndpoint + '&id=' + id;
@@ -89,11 +93,26 @@ let weatherForCity = async (city) => {
     updateForecast(forecast);
 }
 
+let errorMessage = document.querySelector('.error-message');
+
 searchInp.addEventListener('keydown', async (e) => {
     if(e.keyCode === 13) {
-        weatherForCity(searchInp.value);
+        let weather = await getWeatherByCityName(searchInp.value);
+        if(weather.cod === '404') {
+            errorMessage.innerHTML = "City not found. Please enter a valid city name.";
+            return;
+        } else {
+            errorMessage.innerHTML = "";
+        }
+        let cityID = weather.id;
+        updateCurrentWeather(weather);
+        let forecast = await getForecastByCityID(cityID);
+        updateForecast(forecast);
     }
-})
+});
+
+
+
 
 searchInp.addEventListener('input', async () => {
     if(searchInp.value.length <= 2) {
