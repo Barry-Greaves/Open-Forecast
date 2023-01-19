@@ -10,6 +10,7 @@ body {
     font-weight: 300;
     font-size: 22px;
     letter-spacing: .3rem;
+    background-color: black;
   }
   
   .weather {
@@ -26,10 +27,10 @@ body {
     width: 100%;
     padding: 15px 10px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(3, 3, 3, 0.22);
     font-size: 20px;
     color: inherit;
-    margin-bottom: 20px;
+    margin: 0 10px 20px;
   }
   
   .weather__search::placeholder {
@@ -41,6 +42,10 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(3, 3, 3, 0.5);
+    border-radius: 10px;
+    margin: 0 10px 10px;
   }
   
   .weather__image {
@@ -99,7 +104,7 @@ body {
   }
   
   .weather__forecast__item {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(3, 3, 3, 0.5);
     border-radius: 10px;
     margin: 0 10px 10px;
     padding: 30px 5px 20px;

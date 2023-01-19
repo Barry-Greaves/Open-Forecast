@@ -14,6 +14,13 @@ let geocodingBaseEndpoint = 'https://api.openweathermap.org/geo/1.0/direct?&limi
 let datalist = document.getElementById('suggestions');
 
 
+function backgroundImage () {
+document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/Tokyo')"
+var bg = document.getElementById("citybg").value;
+document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?" + bg + "')"
+}
+
+
 let weatherImages = [
   {
       url: 'images/sunny.png',
@@ -82,9 +89,18 @@ let getForecastByCityID = async (id) => {
     return daily;
     
 }
+
 let weatherForCity = async (city) => {
+    let endpoint = geocodingBaseEndpoint + city;
+    let response = await fetch(endpoint);
+    let data = await response.json();
+    if(data.cod === '404' || data.count === 0) {
+        alert("Sorry, the city name you entered is invalid or not found. Please try again.");
+        return;
+    }
     let weather = await getWeatherByCityName(city);
     if(weather.cod === '404') {
+        alert("Sorry, the city name you entered is invalid or not found. Please try again.");
         return;
     }
     let cityID = weather.id;
@@ -93,21 +109,16 @@ let weatherForCity = async (city) => {
     updateForecast(forecast);
 }
 
-let errorMessage = document.querySelector('.error-message');
+
 
 searchInp.addEventListener('keydown', async (e) => {
     if(e.keyCode === 13) {
         let weather = await getWeatherByCityName(searchInp.value);
-        if(weather.cod === '404') {
-            errorMessage.innerHTML = "City not found. Please enter a valid city name.";
-            return;
-        } else {
-            errorMessage.innerHTML = "";
-        }
         let cityID = weather.id;
         updateCurrentWeather(weather);
         let forecast = await getForecastByCityID(cityID);
         updateForecast(forecast);
+        backgroundImage()
     }
 });
 
@@ -181,9 +192,10 @@ let dayOfWeek = (dt = new Date().getTime()) => {
 }
 
 let init = async () => {
-    await weatherForCity('London');
+    await weatherForCity('Tokyo');
     document.body.style.filter = 'blur(0)';
 }
 
-
 init();
+backgroundImage ();
+
