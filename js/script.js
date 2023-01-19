@@ -1,15 +1,17 @@
 let searchInp = document.querySelector('.weather__search');
-let day = document.querySelector('.weather__day');
 let city = document.querySelector('.weather__city');
-let image = document.querySelector('.weather__image');
+let day = document.querySelector('.weather__day');
 let humidity = document.querySelector('.weather__indicator--humidity>.value');
 let wind = document.querySelector('.weather__indicator--wind>.value');
 let pressure = document.querySelector('.weather__indicator--pressure>.value');
+let image = document.querySelector('.weather__image');
 let temperature = document.querySelector('.weather__temperature>.value');
 let forecastBlock = document.querySelector('.weather__forecast');
 let weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
-let weatherBaseEndpoint = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=" + weatherAPIKey;
-let forecastBaseEndpoint = "https://api.openweathermap.org/data/2.5/forecast?units=metric&appid="  +weatherAPIKey;
+let weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
+let forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
+let geocodingBaseEndpoint = 'https://api.openweathermap.org/geo/1.0/direct?&limit=5&appid='+weatherAPIKey+'&q=';
+let datalist = document.getElementById('suggestions');
 
 
 let weatherImages = [
@@ -51,46 +53,61 @@ let weatherImages = [
   }
 ];
 
+
 let getWeatherByCityName = async (city) => {
-  let endpoint = weatherBaseEndpoint + '&q=' + city;
-  let response = await fetch(endpoint);
-  let weather = await response.json();
-  return weather;
-};
+    let endpoint = weatherBaseEndpoint + '&q=' + city;
+    let response = await fetch(endpoint);
+    let weather = await response.json();
+    return weather;
+}
 
 let getForecastByCityID = async (id) => {
-  let endpoint = forecastBaseEndpoint + '&id=' + id;
-  let result = await fetch(endpoint);
-  let forecast = await result.json();
-  let forecastList = forecast.list;
-  let daily = [];
+    let endpoint = forecastBaseEndpoint + '&id=' + id;
+    let result = await fetch(endpoint);
+    let forecast = await result.json();
+    let forecastList = forecast.list;
+    let daily = [];
 
-  forecastList.forEach(day => {
-      let date = new Date(day.dt_txt.replace(' ', 'T'));
-      let hours = date.getHours();
-      if(hours === 12) {
-          daily.push(day);
-      }
-  });
-  return daily;
-  
-};
-
-let weatherForCity =  async(city) => {
-  let weather = await getWeatherByCityName(city);
-  if(weather.cod === '404') {
-      return;
-  }
-  let cityID = weather.id;
-  updateCurrentWeather(weather);
-  let forecast = await getForecastByCityID(cityID);
-  updateForecast(forecast);
-};
+    forecastList.forEach(day => {
+        let date = new Date(day.dt_txt.replace(' ', 'T'));
+        let hours = date.getHours();
+        if(hours === 12) {
+            daily.push(day);
+        }
+    })
+    return daily;
+    
+}
+let weatherForCity = async (city) => {
+    let weather = await getWeatherByCityName(city);
+    if(weather.cod === '404') {
+        return;
+    }
+    let cityID = weather.id;
+    updateCurrentWeather(weather);
+    let forecast = await getForecastByCityID(cityID);
+    updateForecast(forecast);
+}
 
 searchInp.addEventListener('keydown', async (e) => {
-if(e.keyCode === 13) {
-      weatherForCity(searchInp.value);
-} 
+    if(e.keyCode === 13) {
+        weatherForCity(searchInp.value);
+    }
+})
+
+searchInp.addEventListener('input', async () => {
+    if(searchInp.value.length <= 2) {
+        return;
+    }
+    let endpoint = geocodingBaseEndpoint + searchInp.value;
+    let result = await (await fetch(endpoint)).json();
+    datalist.innerHTML = '';
+    result.forEach((city) => {
+        let option = document.createElement('option');
+        option.value = `${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`;
+        option.label = option.value;
+        datalist.appendChild(option);
+    })
 });
 
 let updateCurrentWeather = (data) => {
@@ -118,28 +135,36 @@ let updateCurrentWeather = (data) => {
         if(obj.ids.includes(imgID)) {
             image.src = obj.url;
         }
-    });
-  };
+    })
+}
 
 let updateForecast = (forecast) => {
-  forecastBlock.innerHTML = '';
-  forecast.forEach(day => {
-      let iconUrl = 'https://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
-      let dayName = dayOfWeek(day.dt * 1000);
-      let temperature = day.main.temp > 0 ? 
-                  '+' + Math.round(day.main.temp) : 
-                  Math.round(day.main.temp);
-      let forecatItem = `
-          <article class="weather__forecast__item">
-              <img src="${iconUrl}" alt="${day.weather[0].description}" class="weather__forecast__icon">
-              <h3 class="weather__forecast__day">${dayName}</h3>
-              <p class="weather__forecast__temperature"><span class="value">${temperature}</span> &deg;C</p>
-          </article>
-      `;
-      forecastBlock.insertAdjacentHTML('beforeend', forecatItem);
-  });
-};
+    forecastBlock.innerHTML = '';
+    forecast.forEach(day => {
+        let iconUrl = 'https://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
+        let dayName = dayOfWeek(day.dt * 1000);
+        let temperature = day.main.temp > 0 ? 
+                    '+' + Math.round(day.main.temp) : 
+                    Math.round(day.main.temp);
+        let forecatItem = `
+            <article class="weather__forecast__item">
+                <img src="${iconUrl}" alt="${day.weather[0].description}" class="weather__forecast__icon">
+                <h3 class="weather__forecast__day">${dayName}</h3>
+                <p class="weather__forecast__temperature"><span class="value">${temperature}</span> &deg;C</p>
+            </article>
+        `;
+        forecastBlock.insertAdjacentHTML('beforeend', forecatItem);
+    })
+}
 
 let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
-  };
+}
+
+let init = async () => {
+    await weatherForCity('London');
+    document.body.style.filter = 'blur(0)';
+}
+
+
+init();

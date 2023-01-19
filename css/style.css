@@ -12,7 +12,7 @@ body {
     letter-spacing: .3rem;
   }
   
-  .weather__main {
+  .weather {
     width: 80%;
     height: 100%;
     margin: 0 auto;
