@@ -1,5 +1,10 @@
 @import url("https://use.typekit.net/pqt3gjo.css");
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
 body {
     width: 100%;
     height: 100vh;
@@ -11,6 +16,7 @@ body {
     font-size: 22px;
     letter-spacing: .3rem;
     background-color: black;
+
   }
   
   .weather {
@@ -27,10 +33,12 @@ body {
     width: 100%;
     padding: 15px 10px;
     border: none;
-    background-color: rgba(3, 3, 3, 0.22);
+    background-color: rgba(3, 3, 3, 0.6);
     font-size: 20px;
     color: inherit;
-    margin: 0 10px 20px;
+    margin-bottom : 20px;
+    border-radius: 10px;
+
   }
   
   .weather__search::placeholder {
@@ -43,7 +51,7 @@ body {
     justify-content: space-between;
     margin-bottom: 20px;
     padding: 15px;
-    background-color: rgba(3, 3, 3, 0.5);
+    background-color: rgba(3, 3, 3, 0.6);
     border-radius: 10px;
     margin: 0 10px 10px;
   }
@@ -104,7 +112,7 @@ body {
   }
   
   .weather__forecast__item {
-    background-color: rgba(3, 3, 3, 0.5);
+    background-color: rgba(3, 3, 3, 0.6);
     border-radius: 10px;
     margin: 0 10px 10px;
     padding: 30px 5px 20px;
