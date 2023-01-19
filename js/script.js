@@ -72,6 +72,22 @@ let getWeatherByCityName = async (city) => {
 }
 
 
+let getForecastByCityName = async (city) => {
+    let endpoint = forecastBaseEndpoint + '&q=' + city;
+    let result = await fetch(endpoint);
+    let forecast = await result.json();
+    let forecastList = forecast.list;
+    let daily = [];
+    forecastList.forEach(day => {
+        let date = new Date(day.dt_txt.replace(' ', 'T'));
+        let hours = date.getHours();
+        if(hours === 12) {
+            daily.push(day);
+        }
+    });
+    return daily;
+}
+
 let getForecastByCityID = async (id) => {
     let endpoint = forecastBaseEndpoint + '&id=' + id;
     let result = await fetch(endpoint);
@@ -190,6 +206,46 @@ let updateForecast = (forecast) => {
 let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
 }
+
+async function generateWeatherReport(city) {
+    let forecast = await getForecastByCityName(city);
+    let report = "Weather Report for " + city + ":\n\n";
+    forecastBlock.innerHTML = "";
+
+    forecast.forEach(day => {
+        let date = new Date(day.dt_txt.replace(' ', 'T'));
+        let dayName = date.toLocaleString('default', {weekday: 'long'});
+        let weather = day.weather[0];
+        let temp = day.main.temp;
+        let humidity = day.main.humidity;
+        let wind = day.wind.speed;
+        let pressure = day.main.pressure;
+        let icon = weatherImages.find(function (val) { return val.ids.indexOf(weather.id) != -1 });
+        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " degrees. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.\n\n"
+
+        // Update the forecast section
+        let forecastItem = document.createElement('article');
+        forecastItem.classList.add('weather__forecast__item');
+        forecastItem.innerHTML = `
+            <img src="${icon.url}" alt="${weather.description}" class="weather__forecast__icon">
+            <h3 class="weather__forecast__day">${dayName}</h3>
+            <p class="weather__forecast__temperature"><span class="value">${temp}</span> &deg;C</p>
+            <p class="weather__forecast__humidity">Humidity: ${humidity}%</p>
+            <p class="weather__forecast__wind">Wind: ${wind}m/s</p>
+            <p class="weather__forecast__pressure">Pressure: ${pressure} hPa</p>
+        `;
+        forecastBlock.appendChild(forecastItem);
+    });
+    let reportContainer = document.getElementById("report");
+    reportContainer.innerHTML = report;
+}
+
+let searchInput = document.querySelector('.weather__search');
+searchInput.addEventListener('change', function(){
+    let city = searchInput.value;
+    generateWeatherReport(city);
+});
+
 
 let init = async () => {
     await weatherForCity('Tokyo');
