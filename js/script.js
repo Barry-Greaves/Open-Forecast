@@ -15,7 +15,6 @@ let datalist = document.getElementById('suggestions');
 
 
 function backgroundImage () {
-document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/Tokyo')"
 var bg = document.getElementById("citybg").value;
 document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?" + bg + "')"
 }
@@ -209,8 +208,9 @@ let dayOfWeek = (dt = new Date().getTime()) => {
 
 async function generateWeatherReport(city) {
     let forecast = await getForecastByCityName(city);
-    let report = "Weather Report for " + city + ":\n\n";
-    forecastBlock.innerHTML = "";
+    let report = "Weather Report for " + city + ": \n\n";
+    let reportText = "";
+    document.querySelector('#report').innerText = reportText;
 
     forecast.forEach(day => {
         let date = new Date(day.dt_txt.replace(' ', 'T'));
@@ -223,18 +223,6 @@ async function generateWeatherReport(city) {
         let icon = weatherImages.find(function (val) { return val.ids.indexOf(weather.id) != -1 });
         report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " degrees. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.\n\n"
 
-        // Update the forecast section
-        let forecastItem = document.createElement('article');
-        forecastItem.classList.add('weather__forecast__item');
-        forecastItem.innerHTML = `
-            <img src="${icon.url}" alt="${weather.description}" class="weather__forecast__icon">
-            <h3 class="weather__forecast__day">${dayName}</h3>
-            <p class="weather__forecast__temperature"><span class="value">${temp}</span> &deg;C</p>
-            <p class="weather__forecast__humidity">Humidity: ${humidity}%</p>
-            <p class="weather__forecast__wind">Wind: ${wind}m/s</p>
-            <p class="weather__forecast__pressure">Pressure: ${pressure} hPa</p>
-        `;
-        forecastBlock.appendChild(forecastItem);
     });
     let reportContainer = document.getElementById("report");
     reportContainer.innerHTML = report;
@@ -248,7 +236,7 @@ searchInput.addEventListener('change', function(){
 
 
 let init = async () => {
-    await weatherForCity('Tokyo');
+    await weatherForCity('London');
     document.body.style.filter = 'blur(0)';
 }
 
