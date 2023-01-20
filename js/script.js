@@ -21,7 +21,7 @@ let datalist = document.getElementById('suggestions');
  */
 function backgroundImage () {
 var bg = document.getElementById("citybg").value;
-document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?" + bg + "')"
+document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?" + bg + "')";
 }
 
 /**
@@ -89,7 +89,7 @@ let getWeatherByCityName = async (city) => {
     }
     let weather = await response.json();
     return weather;
-}
+};
 
 
 /**
@@ -112,7 +112,7 @@ let getForecastByCityName = async (city) => {
         }
     });
     return daily;
-}
+};
 let getForecastByCityID = async (id) => {
     let endpoint = forecastBaseEndpoint + '&id=' + id;
     let result = await fetch(endpoint);
@@ -125,9 +125,9 @@ let getForecastByCityID = async (id) => {
         if(hours === 12) {
             daily.push(day);
         }
-    })
+    });
     return daily; 
-}
+};
 
 /**
 This function asynchronously retrieves the current weather and forecast for a given city using the city's name.
@@ -142,7 +142,7 @@ let weatherForCity = async (city) => {
     updateCurrentWeather(weather);
     let forecast = await getForecastByCityID(cityID);
     updateForecast(forecast);
-}
+};
 
 /**
 Event listener that listens for the "keydown" event on the search input element.
@@ -162,7 +162,7 @@ searchInp.addEventListener('keydown', async (e) => {
         updateCurrentWeather(weather);
         let forecast = await getForecastByCityID(cityID);
         updateForecast(forecast);
-        backgroundImage()
+        backgroundImage();
     }
 });
 
@@ -189,7 +189,7 @@ searchInp.addEventListener('input', async () => {
         option.value = `${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`;
         option.label = option.value;
         datalist.appendChild(option);
-    })
+    });
 });
 
 let updateCurrentWeather = (data) => {
@@ -217,8 +217,8 @@ let updateCurrentWeather = (data) => {
         if(obj.ids.includes(imgID)) {
             image.src = obj.url;
         }
-    })
-}
+    });
+};
 
 /**
 Updates the current weather information on the webpage with the data received from the API.
@@ -248,8 +248,8 @@ let updateForecast = (forecast) => {
             </article>
         `;
         forecastBlock.insertAdjacentHTML('beforeend', forecatItem);
-    })
-}
+    });
+};
 
 /**
 Returns the current day of the week or the day of the week for a given date.
@@ -258,7 +258,7 @@ If no parameter is passed, the function uses the current date and time.
 */
 let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
-}
+};
 
 /**
 Generates a weather report for a given city.
@@ -288,8 +288,8 @@ async function generateWeatherReport(city) {
         let humidity = day.main.humidity;
         let wind = day.wind.speed;
         let pressure = day.main.pressure;
-        let icon = weatherImages.find(function (val) { return val.ids.indexOf(weather.id) != -1 });
-        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " &deg;C. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.<br><br>"
+        
+        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " &deg;C. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.<br><br>";
 
     });
     let reportContainer = document.getElementById("report");
@@ -308,8 +308,7 @@ The function calls the weatherForCity function with the argument 'London' which 
 */
 let init = async () => {
     await weatherForCity('London');
-}
+};
 
 init();
 backgroundImage ();
-
