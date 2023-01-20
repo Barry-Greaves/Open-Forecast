@@ -16,7 +16,6 @@ body {
     font-size: 22px;
     letter-spacing: .3rem;
     background-color: black;
-
   }
   
   .weather {
@@ -38,7 +37,6 @@ body {
     color: inherit;
     margin-bottom : 20px;
     border-radius: 10px;
-
   }
   
   .weather__search::placeholder {
@@ -121,15 +119,12 @@ body {
     flex-grow: 1;
   }
 
- 
-
   .weather__report__container {
     width: 100%;
     min-height: 250px;
     overflow: hidden;
     background-color: rgba(3, 3, 3, 0.8);
     border-radius: 10px;
-   
     padding: 10px;
   }
 

@@ -74,11 +74,11 @@ let weatherImages = [
 ];
 
 /**
- * Retrieves the current weather data for a given city from the OpenWeatherMap API
- * This function takes a city name as an argument and constructs an API endpoint using the weatherBaseEndpoint 
- * and the city name. Then it fetches the weather data from the API and returns a JSON object containing the weather data.
- * If the API returns a status code other than "ok" it will show an alert with an error message to the user,
- * and it will return an object with a cod property set to "404"
+ Retrieves the current weather data for a given city from the OpenWeatherMap API
+ This function takes a city name as an argument and constructs an API endpoint using the weatherBaseEndpoint 
+ and the city name. Then it fetches the weather data from the API and returns a JSON object containing the weather data.
+ If the API returns a status code other than "ok" it will show an alert with an error message to the user,
+ and it will return an object with a cod property set to "404"
  */
 let getWeatherByCityName = async (city) => {
     let endpoint = weatherBaseEndpoint + '&q=' + city;
@@ -93,12 +93,11 @@ let getWeatherByCityName = async (city) => {
 
 
 /**
- * Retrieves the forecast data for a given city from the OpenWeatherMap API
- * This function takes a city name as an argument and constructs an API endpoint using the forecastBaseEndpoint 
- * and the city name. Then it fetches the forecast data from the API, filters the data to only include forecasts
- * for 12:00 PM, and returns an array of filtered forecast objects.
+ Retrieves the forecast data for a given city from the OpenWeatherMap API
+ This function takes a city name as an argument and constructs an API endpoint using the forecastBaseEndpoint 
+ and the city name. Then it fetches the forecast data from the API, filters the data to only include forecasts
+ for 12:00 PM, and returns an array of filtered forecast objects.
  */
-
 let getForecastByCityName = async (city) => {
     let endpoint = forecastBaseEndpoint + '&q=' + city;
     let result = await fetch(endpoint);
@@ -114,14 +113,12 @@ let getForecastByCityName = async (city) => {
     });
     return daily;
 }
-
 let getForecastByCityID = async (id) => {
     let endpoint = forecastBaseEndpoint + '&id=' + id;
     let result = await fetch(endpoint);
     let forecast = await result.json();
     let forecastList = forecast.list;
     let daily = [];
-
     forecastList.forEach(day => {
         let date = new Date(day.dt_txt.replace(' ', 'T'));
         let hours = date.getHours();
@@ -129,31 +126,35 @@ let getForecastByCityID = async (id) => {
             daily.push(day);
         }
     })
-    return daily;
-    
+    return daily; 
 }
 
+/**
+This function asynchronously retrieves the current weather and forecast for a given city using the city's name.
+The function first calls the getWeatherByCityName function to get the current weather for the city,
+then uses the returned weather object's id property to call the getForecastByCityID function to get the forecast for the city.
+Both the current weather and forecast are then passed to their respective update functions, updateCurrentWeather and updateForecast,
+to update the current weather and forecast data for the city.
+*/
 let weatherForCity = async (city) => {
-    let endpoint = geocodingBaseEndpoint + city;
-    let response = await fetch(endpoint);
-    let data = await response.json();
-    if(data.cod === '404' || data.count === 0) {
-        alert("Sorry, the city name you entered is invalid or not found. Please try again.");
-        return;
-    }
     let weather = await getWeatherByCityName(city);
-    if(weather.cod === '404') {
-        alert("Sorry, the city name you entered is invalid or not found. Please try again.");
-        return;
-    }
     let cityID = weather.id;
     updateCurrentWeather(weather);
     let forecast = await getForecastByCityID(cityID);
     updateForecast(forecast);
 }
 
-
-
+/**
+Event listener that listens for the "keydown" event on the search input element.
+When the event is triggered, the function checks if the key code of the pressed key is 13 (Enter).
+If the key code is 13, the function will execute the following:
+calls the getWeatherByCityName function with the value of the search input as the city name
+gets the city ID from the returned weather object
+calls the updateCurrentWeather function with the returned weather object
+calls the getForecastByCityID function with the city ID and gets the forecast
+calls the updateForecast function with the returned forecast
+calls the backgroundImage function
+*/
 searchInp.addEventListener('keydown', async (e) => {
     if(e.keyCode === 13) {
         let weather = await getWeatherByCityName(searchInp.value);
@@ -165,9 +166,17 @@ searchInp.addEventListener('keydown', async (e) => {
     }
 });
 
-
-
-
+/**
+Event listener that listens for the "input" event on the search input element.
+When the event is triggered, the function checks if the input value length is less than or equal to 2 characters.
+If it is, the function will exit and not execute the rest of the code.
+If the input value length is more than 2 characters, the function will
+construct an API endpoint using the geocodingBaseEndpoint global variable and the input value
+fetch the geocoding data from the API using the endpoint
+clear the suggestions datalist's innerHTML
+create an option element for each city in the result and append to the suggestions datalist
+set the value and label of the option element to the city's name, state (if exists), and country
+*/
 searchInp.addEventListener('input', async () => {
     if(searchInp.value.length <= 2) {
         return;
@@ -211,6 +220,18 @@ let updateCurrentWeather = (data) => {
     })
 }
 
+/**
+Updates the current weather information on the webpage with the data received from the API.
+Takes in a data object containing the weather data.
+Updates the following elements on the webpage with the corresponding values from the data object:
+city name and country code
+day of the week
+humidity
+pressure
+wind direction and speed
+temperature
+weather image based on the weather condition id
+*/
 let updateForecast = (forecast) => {
     forecastBlock.innerHTML = '';
     forecast.forEach(day => {
@@ -230,10 +251,29 @@ let updateForecast = (forecast) => {
     })
 }
 
+/**
+Returns the current day of the week or the day of the week for a given date.
+Takes an optional parameter dt, which is a timestamp in milliseconds.
+If no parameter is passed, the function uses the current date and time.
+*/
 let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
 }
 
+/**
+Generates a weather report for a given city.
+Takes in a city name as an argument, it calls the getForecastByCityName function to get the forecast for the city.
+Creates a report variable and sets it to "Weather Report for {city}:<br><br>"
+Loops through the forecast data and for each day, it creates a variable for each of the following:
+the day's name
+the weather description
+the temperature
+the humidity
+the wind speed
+the pressure
+the icon image associated with the weather condition
+The function then adds the information to the report variable in a formatted string
+*/
 async function generateWeatherReport(city) {
     let forecast = await getForecastByCityName(city);
     let report = "Weather Report for " + city + ":<br><br>";
@@ -249,7 +289,7 @@ async function generateWeatherReport(city) {
         let wind = day.wind.speed;
         let pressure = day.main.pressure;
         let icon = weatherImages.find(function (val) { return val.ids.indexOf(weather.id) != -1 });
-        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " degrees. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.<br><br>"
+        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " &deg;C. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.<br><br>"
 
     });
     let reportContainer = document.getElementById("report");
@@ -262,10 +302,12 @@ searchInput.addEventListener('change', function(){
     generateWeatherReport(city);
 });
 
-
+/**
+Initialization function that is called when the webpage loads.
+The function calls the weatherForCity function with the argument 'London' which gets the current weather and forecast for London.
+*/
 let init = async () => {
     await weatherForCity('London');
-    document.body.style.filter = 'blur(0)';
 }
 
 init();

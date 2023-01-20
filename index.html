@@ -2,16 +2,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>Open Forecast</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="#">
 </head>
 <body>
     <div class="weather">
+        <!--
+            Input element for the city search, with a list of suggestions and a placeholder text
+        -->
         <input type="search" list="suggestions" class="weather__search" placeholder="Your City" id="citybg">
-   
+        <!--
+            Datalist element to hold the suggestions
+        -->
         <datalist id="suggestions"></datalist>
         <div class="weather__today">
+        <!--
+            Div for the current weather with details, an image, and temperature
+        -->
             <div class="weather__details">
                 <h2 class="weather__city">City</h2>
                 <p class="weather__day">Day</p>
@@ -24,6 +32,9 @@
             <img src="images/clear-sky.png" alt="Clear sky" class="weather__image">
             <div class="weather__temperature"><span class="value">+25</span> &deg;C</div>
         </div>
+        <!--
+            Div for the forecast with article elements for each day
+        -->
         <div class="weather__forecast">
             <article class="weather__forecast__item">
                 <img src="images/clear-sky.png" alt="Clear sky" class="weather__forecast__icon">
@@ -51,6 +62,9 @@
                 <p class="weather__forecast__temperature"><span class="value">+25</span> &deg;C</p>
             </article>
         </div>
+        <!--
+            Div for the weather report container
+        -->
         <div class ="weather__report__container">
             <div class="weather__report">
                 <p id="report" class ="weather-report"></p>
