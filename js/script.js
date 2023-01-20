@@ -1,3 +1,8 @@
+const weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
+const weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
+const forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
+const geocodingBaseEndpoint = 'https://api.openweathermap.org/geo/1.0/direct?&limit=5&appid='+weatherAPIKey+'&q=';
+
 let searchInp = document.querySelector('.weather__search');
 let city = document.querySelector('.weather__city');
 let day = document.querySelector('.weather__day');
@@ -7,19 +12,28 @@ let pressure = document.querySelector('.weather__indicator--pressure>.value');
 let image = document.querySelector('.weather__image');
 let temperature = document.querySelector('.weather__temperature>.value');
 let forecastBlock = document.querySelector('.weather__forecast');
-let weatherAPIKey = 'eeb6b90e8ef375f3964761f6c685dbf4';
-let weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
-let forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
-let geocodingBaseEndpoint = 'https://api.openweathermap.org/geo/1.0/direct?&limit=5&appid='+weatherAPIKey+'&q=';
 let datalist = document.getElementById('suggestions');
 
 
+/**
+ * This function retrieves the value of the input element with the ID "citybg" and uses it to set the background
+ * image of the page using the Unsplash API. The background image is set to the body element of the page.
+ */
 function backgroundImage () {
 var bg = document.getElementById("citybg").value;
 document.body.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?" + bg + "')"
 }
 
-
+/**
+ * weatherImages - an array of objects that map weather conditions to corresponding images
+ * 
+ * Each object in the array has two properties:
+ * - url: the URL of the image to display for the corresponding weather condition
+ * - ids: an array of weather condition IDs that map to the corresponding image
+ * 
+ * This array is used to determine which image to display for a given weather condition based on the 
+ * weather condition ID received from the OpenWeatherMap API.
+ */
 let weatherImages = [
   {
       url: 'images/sunny.png',
@@ -59,17 +73,31 @@ let weatherImages = [
   }
 ];
 
-
+/**
+ * Retrieves the current weather data for a given city from the OpenWeatherMap API
+ * This function takes a city name as an argument and constructs an API endpoint using the weatherBaseEndpoint 
+ * and the city name. Then it fetches the weather data from the API and returns a JSON object containing the weather data.
+ * If the API returns a status code other than "ok" it will show an alert with an error message to the user,
+ * and it will return an object with a cod property set to "404"
+ */
 let getWeatherByCityName = async (city) => {
     let endpoint = weatherBaseEndpoint + '&q=' + city;
     let response = await fetch(endpoint);
     if(!response.ok) {
+        alert("I'm sorry that is not a valid city name. Please check your spelling and submit again");
         return {cod: '404'};
     }
     let weather = await response.json();
     return weather;
 }
 
+
+/**
+ * Retrieves the forecast data for a given city from the OpenWeatherMap API
+ * This function takes a city name as an argument and constructs an API endpoint using the forecastBaseEndpoint 
+ * and the city name. Then it fetches the forecast data from the API, filters the data to only include forecasts
+ * for 12:00 PM, and returns an array of filtered forecast objects.
+ */
 
 let getForecastByCityName = async (city) => {
     let endpoint = forecastBaseEndpoint + '&q=' + city;
@@ -208,7 +236,7 @@ let dayOfWeek = (dt = new Date().getTime()) => {
 
 async function generateWeatherReport(city) {
     let forecast = await getForecastByCityName(city);
-    let report = "Weather Report for " + city + ": \n\n";
+    let report = "Weather Report for " + city + ":<br><br>";
     let reportText = "";
     document.querySelector('#report').innerText = reportText;
 
@@ -221,7 +249,7 @@ async function generateWeatherReport(city) {
         let wind = day.wind.speed;
         let pressure = day.main.pressure;
         let icon = weatherImages.find(function (val) { return val.ids.indexOf(weather.id) != -1 });
-        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " degrees. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.\n\n"
+        report += "On " + dayName + ", the weather will be " + weather.description + " with a high of " + temp + " degrees and a low of " + temp + " degrees. The humidity will be around " + humidity + "%, the wind will be blowing at " + wind + "m/s, and the pressure will be around " + pressure + "hPa.<br><br>"
 
     });
     let reportContainer = document.getElementById("report");
